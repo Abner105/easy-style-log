@@ -1,6 +1,6 @@
 const types = ['feat', 'fix', 'docs', 'style', 'refactor', 'perf', 'test', 'build', 'release', 'chore', 'revert'];
 
-export default {
+module.exports = {
   extends: ['@commitlint/config-conventional'],
   rules: {
     'type-empty': [2, 'never'],
