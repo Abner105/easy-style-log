@@ -4,6 +4,7 @@ export default defineConfig({
   build: {
     target: 'modules', // 详情参考官方文档：https://cn.vitejs.dev/config/build-options.html#build-target
     minify: true, // 是否开启代码压缩
+    sourcemap: false,
     rollupOptions: {
       input: ['src/index.ts'], // 打包的入口文件 https://cn.rollupjs.org/configuration-options/#input
       output: [ // 产物输出配置

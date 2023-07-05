@@ -12,6 +12,7 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
-    "semi": 2
+    "semi": 2,
+    "@typescript-eslint/no-inferrable-types": "off"
   }
 }

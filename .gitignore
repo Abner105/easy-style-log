@@ -13,6 +13,7 @@ dist-ssr
 *.local
 es
 lib
+types
 
 # Editor directories and files
 .vscode/*

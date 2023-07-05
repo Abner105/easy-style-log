@@ -1,27 +1,37 @@
 {
-  "name": "package-name",
+  "name": "style-console-log",
   "private": false,
-  "version": "0.0.0",
-  "type": "module",
+  "version": "1.1.4-beta.0",
+  "author": "Jewel",
+  "description": "console style",
+  "license": "MY LICENSE",
+  "homepage": "https://www.npmjs.com/package/style-console-log",
   "files": [
     "es",
     "lib",
-    "index.d.ts"
+    "types",
+    "README",
+    "LICENSE"
   ],
   "main": "lib/index.js",
   "module": "es/index.js",
-  "types": "./index.d.ts",
+  "browser": "es/index.js",
+  "types": "types/index.d.ts",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && bumpp",
     "prepare": "husky install",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "changelog": "conventional-changelog -p -i CHANGELOG.md -s",
+    "version": "bumpp"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.6",
     "@commitlint/config-conventional": "^17.6.6",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
+    "bumpp": "^9.1.1",
+    "conventional-changelog-cli": "^3.0.0",
     "eslint": "^8.43.0",
     "husky": "^8.0.0",
     "lint-staged": "^13.2.3",
@@ -30,8 +40,19 @@
   },
   "lint-staged": {
     "src/**/*.{js,ts}": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ]
+  },
+  "keywords": [
+    "console",
+    "style",
+    "log"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }
