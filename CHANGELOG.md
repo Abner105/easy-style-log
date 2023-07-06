@@ -1,3 +1,9 @@
+## 1.2.0 (2023-07-06)
+
+* release: 1.2.0 更改使用方法，控制台source指向调用的文件 ([3bce9b2](https://github.com/commit/3bce9b2))
+
+
+
 ## <small>1.1.5 (2023-07-06)</small>
 
 
