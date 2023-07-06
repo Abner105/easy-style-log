@@ -1,3 +1,8 @@
+## <small>1.1.5 (2023-07-06)</small>
+
+
+
+
 ## <small>1.1.4 (2023-07-05)</small>
 
 * feat: 利用任务队列，实现控制台全链式调用 ([a0c5316](https://github.com/commit/a0c5316))

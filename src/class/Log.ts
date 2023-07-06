@@ -1,70 +1,67 @@
-import { OverrideLog } from "./OverrideLog";
-import { ILog } from "./type";
+import { ILog, IDefault } from "./type";
 
 /**
  * Log 主类
  */
-export class Log extends OverrideLog implements ILog {
-  #bg: string[];
-  #color: string[];
-  #title: string[];
-  #style: string[];
-  #timers: number[] = [];
-  #data: unknown[] = [];
+export class Log implements ILog {
+  #bg: string[] = [""];
+  #color: string[] = [""];
+  #title: string[] = [""];
+  #style: string[] = [""];
   static defaultBg: string[] = [
     "linear-gradient(to right, #12c2e9, #c471ed, #f64f59)",
   ];
   static defaultColor: string[] = ["#FFFFFF"];
   static defaultTitle: string[] = ["STYLE-CONSOLE-LOG"];
   static defaultStyle: string[] = [""];
+  static instance: Log;
 
-  constructor(args: unknown[]) {
-    super();
-    this.#bg = Log.defaultBg;
-    this.#color = Log.defaultColor;
-    this.#title = Log.defaultTitle;
-    this.#style = Log.defaultStyle;
-    this.#data = args;
-    this.#excute();
+  constructor() {
+    // 单例
+    if (!Log.instance) {
+      this.#init();
+      Log.instance = this;
+    }
+    return Log.instance;
   }
 
   bg(...bgs: string[]): ILog {
     this.#bg = bgs;
-    this.#excute();
     return this;
   }
 
   color(...colors: string[]): ILog {
     this.#color = colors;
-    this.#excute();
     return this;
   }
 
   title(...titles: string[]): ILog {
     this.#title = titles;
-    this.#excute();
     return this;
   }
 
   style(...styles: string[]): ILog {
     this.#style = styles;
-    this.#excute();
     return this;
   }
 
-  #excute(): void {
-    const timer: NodeJS.Timeout = setTimeout(() => {
-      if (this.#timers.length === 1) {
-        this.#next();
-      }
-      clearTimeout(this.#timers.shift());
-    });
-    this.#timers.push(Number(timer));
+  #init(): void {
+    this.#bg = [...Log.defaultBg];
+    this.#color = [...Log.defaultColor];
+    this.#title = [...Log.defaultTitle];
+    this.#style = [...Log.defaultStyle];
   }
 
-  #next(): void {
-    let title: string = "";
+  setDefaultStyle(options: IDefault): void {
+    Log.defaultBg = options.defaultBg || ["#D7F7C2"];
+    Log.defaultColor = options.defaultColor || ["#05690D"];
+    Log.defaultTitle = options.defaultTitle || ["style-console-log"];
+    Log.defaultStyle = options.defaultStyle || [""];
+    this.#init();
+  }
 
+  exe(...data: unknown[]) {
+    let title: string = "";
     const styles: string[] = this.#title.map((item, index) => {
       title += `%c ${item} `;
       const bg = this.#bg[index] || this.#bg[0];
@@ -75,7 +72,7 @@ export class Log extends OverrideLog implements ILog {
         style
       );
     });
-
-    return console.log(title, ...styles, ...this.#data);
+    this.#init();
+    return console.log(title, ...styles, ...data);
   }
 }
