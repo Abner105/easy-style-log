@@ -83,7 +83,7 @@ const ansi256ToAnsi = (code: number): number => {
 }
 
 
-function hexToRgb(hex: string): number[] {
+const hexToRgb = (hex: string): number[] => {
   let rgb: number[] = []
   if (hex.length < 5) {
     for (let i = 1; i < hex.length; i++) {
@@ -97,12 +97,12 @@ function hexToRgb(hex: string): number[] {
   return rgb
 }
 
-function parseColor(s: string, isBG: boolean = false): number {
+const colorToAnsi = (s: string, isBG: boolean = false): number => {
   let code = isBG ? 10 : 0
   if (colors[s]) return colors[s] + code
   let r: number = 0, g: number = 0, b: number = 0
   if (/^rgb.*\)$/.test(s)) {
-    const res: string[] = (s.match(/\((.*?)\)/) as string[])[1].split(',');
+    const res: string[] = (<string[]>s.match(/\((.*?)\)/))[1].split(',');
     [r, g, b] = res.map(item => parseInt(item))
   } else if (/^#[0-9a-fA-F]{3}|^#[0-9a-fA-F]{6}|^#[0-9a-fA-F]{8}/.test(s)) {
     [r, g, b] = hexToRgb(s)
@@ -110,4 +110,4 @@ function parseColor(s: string, isBG: boolean = false): number {
   return ansi256ToAnsi(rgbToAnsi256(r, g, b)) + code
 }
 
-export default parseColor
+export default colorToAnsi
