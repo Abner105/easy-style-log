@@ -1,5 +1,8 @@
 import { ILog, IDefault } from "./type";
+import colorToAnsi from "../utils/colorToAnsi";
+import logLocation from "../utils/logLocation";
 
+const isNode = typeof window !== 'object'
 /**
  * Log 主类
  */
@@ -8,12 +11,15 @@ export class Log implements ILog {
   #color: string[] = [""];
   #title: string[] = [""];
   #style: string[] = [""];
-  static defaultBg: string[] = [
+  static defaultBg: string[] = isNode ? ['grey'] : [
     "linear-gradient(to right, #12c2e9, #c471ed, #f64f59)",
   ];
-  static defaultColor: string[] = ["#FFFFFF"];
+  static defaultColor: string[] = isNode ? [''] : ["#FFFFFF"];
   static defaultTitle: string[] = ["STYLE-CONSOLE-LOG"];
   static defaultStyle: string[] = [""];
+  static isDebug: boolean = true;
+  static debugBg: string = "";
+  static debugColor: string = "blue";
   static instance: Log;
 
   constructor() {
@@ -60,19 +66,44 @@ export class Log implements ILog {
     this.#init();
   }
 
-  exe(...data: unknown[]) {
-    let title: string = "";
-    const styles: string[] = this.#title.map((item, index) => {
-      title += `%c ${item} `;
-      const bg = this.#bg[index] || this.#bg[0];
-      const color = this.#color[index] || this.#color[0];
-      const style = this.#style[index] || this.#style[0];
-      return (
-        `background: ${bg};color: ${color}; padding: 6px 12px;margin:8px 0; border-radius: 4px; font-size: 18px;  font-weight: 600;` +
-        style
-      );
-    });
+  #mergeParams(): string[] {
+    let styles: string[] = []
+    if (isNode) {
+      // \x1B[42;31m%s\x1B[49;39m
+      let loca: string = ""
+      if (Log.isDebug) {
+        let b = Log.debugBg ? colorToAnsi(Log.debugBg, true) + ';' : ""
+        let c = Log.debugColor ? colorToAnsi(Log.debugColor) + '' : ''
+        loca = `\x1B[${b}${c}m${logLocation()}\x1B[49;39m`
+      }
+      styles[0] = this.#title.reduce((pre, item, i): string => {
+        let b = this.#bg[i] ? colorToAnsi(this.#bg[i], true) + ';' : this.#bg[0] ? colorToAnsi(this.#bg[0], true) + ';' : ""
+        let c = this.#color[i] ? colorToAnsi(this.#color[i]) : this.#color[0] ? colorToAnsi(this.#color[0]) : ""
+        return pre + `\x1B[${b}${c}m${item}\x1B[49;39m`
+      }, loca)
+    } else {
+      let title: string = "";
+      styles = this.#title.map((item, index) => {
+        title += `%c ${item} `;
+        const bg = this.#bg[index] || this.#bg[0];
+        const color = this.#color[index] || this.#color[0];
+        const style = this.#style[index] || this.#style[0];
+        return (
+          `background: ${bg};color: ${color}; padding: 3px 6px;margin:4px 0; border-radius: 2px; font-size: 14px;  font-weight: 600;` +
+          style
+        );
+      });
+      styles.unshift(title)
+    }
     this.#init();
-    return console.log(title, ...styles, ...data);
+    return styles
   }
+
+  exe = (...data: unknown[]) => {
+    const styles = this.#mergeParams()
+    if (Log.isDebug && !isNode) {
+      return console.trace(...styles, ...data)
+    }
+    return console.log(...styles, ...data)
+  };
 }
