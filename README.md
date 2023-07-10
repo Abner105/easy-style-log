@@ -1,6 +1,6 @@
-# style-console-log
+# easy-style-log
 
-`style-console-log` mainly enhances the writing method of `console.log` for browsers, and can easily realize the printing style of the console through chain calls.
+`easy-style-log` mainly enhances the writing method of `console.log` for browsers, and can easily realize the printing style of the console through chain calls.
 
 ## Features
 
@@ -12,7 +12,7 @@
 ## Installation
 
 ```
-    npm i style-console-log
+    npm i easy-style-log
 ```
 
 ## Example
@@ -22,7 +22,7 @@
 ![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3ef03f4d0f514ceb837823c8bb0e0043~tplv-k3u1fbpfcp-zoom-1.image)
 
 ```ts
-import createLog from "style-console-log"
+import createLog from "easy-style-log"
 const data = "this is data"
 const o = {key:"value"}
 // params:any
@@ -34,7 +34,7 @@ createLog(data,o)
 ![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b2833579587b4305bf893a8ee4b110a7~tplv-k3u1fbpfcp-zoom-1.image)
 
 ```ts
-import createLog from "style-console-log"
+import createLog from "easy-style-log"
 createLog({
   defaultBg: ["#000", "#D7F7C2"],   // backgrond   string[]
   defaultColor: ["#ffffff", "#05690D"],  // text color  string[]
@@ -54,7 +54,7 @@ createLog(window)
 ![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4b9d35bc5d854a04a59ec99d220d6ba7~tplv-k3u1fbpfcp-zoom-1.image)
 
 ```ts
-import createLog from "style-console-log"
+import createLog from "easy-style-log"
 const data = "this is data"
 // example 1 basic use
 createLog(data, window).bg("linear-gradient(to right, #c04848, #480048)").title("example 1")

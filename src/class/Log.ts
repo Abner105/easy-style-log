@@ -15,7 +15,7 @@ export class Log extends OverrideLog implements ILog {
     "linear-gradient(to right, #12c2e9, #c471ed, #f64f59)",
   ];
   static defaultColor: string[] = ["#FFFFFF"];
-  static defaultTitle: string[] = ["STYLE-CONSOLE-LOG"];
+  static defaultTitle: string[] = ["EASY-STYLE-LOG"];
   static defaultStyle: string[] = [""];
 
   constructor(args: unknown[]) {

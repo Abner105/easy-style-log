@@ -14,7 +14,7 @@ const createLog: (...args: unknown[]) => Log = (...args: unknown[]): Log => {
   ) {
     Log.defaultBg = (args[0] as IArg).defaultBg || ["#D7F7C2"];
     Log.defaultColor = (args[0] as IArg).defaultColor || ["#05690D"];
-    Log.defaultTitle = (args[0] as IArg).defaultTitle || ["style-console-log"];
+    Log.defaultTitle = (args[0] as IArg).defaultTitle || ["easy-style-log"];
     Log.defaultStyle = (args[0] as IArg).defaultStyle || [""];
   }
   return new Log(args);
