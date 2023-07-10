@@ -15,7 +15,7 @@ export class Log implements ILog {
     ? ["grey"]
     : ["linear-gradient(to right, #12c2e9, #c471ed, #f64f59)"];
   static defaultColor: string[] = isNode ? [""] : ["#FFFFFF"];
-  static defaultTitle: string[] = ["STYLE-CONSOLE-LOG"];
+  static defaultTitle: string[] = ["EASY-STYLE-LOG"];
   static defaultStyle: string[] = [""];
   static isDebug: boolean = true;
   static debugBg: string = "";
@@ -61,7 +61,7 @@ export class Log implements ILog {
   setDefaultStyle(options: IDefault): void {
     Log.defaultBg = options.defaultBg || ["#D7F7C2"];
     Log.defaultColor = options.defaultColor || ["#05690D"];
-    Log.defaultTitle = options.defaultTitle || ["style-console-log"];
+    Log.defaultTitle = options.defaultTitle || ["easy-style-log"];
     Log.defaultStyle = options.defaultStyle || [""];
     this.#init();
   }
