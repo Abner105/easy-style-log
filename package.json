@@ -1,11 +1,11 @@
 {
-  "name": "style-console-log",
+  "name": "easy-style-log",
   "private": false,
-  "version": "1.1.5",
+  "version": "0.0.1",
   "author": "Jewel",
-  "description": "console style",
+  "description": "easy-style-log",
   "license": "MY LICENSE",
-  "homepage": "https://www.npmjs.com/package/style-console-log",
+  "homepage": "https://www.npmjs.com/package/easy-style-log",
   "files": [
     "es",
     "lib",
@@ -47,11 +47,12 @@
   "keywords": [
     "console",
     "style",
-    "log"
+    "log",
+    "easy"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com"
+    "url": "https://github.com/Abner105/easy-style-log.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
