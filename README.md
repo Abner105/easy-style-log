@@ -15,7 +15,7 @@
 npm i style-console-log
 ```
 
-## Use
+## Getting Started
 
 ### ⏩ **Basic use**
 

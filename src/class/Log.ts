@@ -2,7 +2,7 @@ import { ILog, IDefault } from "./type";
 import colorToAnsi from "../utils/colorToAnsi";
 import logLocation from "../utils/logLocation";
 
-const isNode = typeof window !== 'object'
+const isNode = typeof window !== "object";
 /**
  * Log 主类
  */
@@ -11,10 +11,10 @@ export class Log implements ILog {
   #color: string[] = [""];
   #title: string[] = [""];
   #style: string[] = [""];
-  static defaultBg: string[] = isNode ? ['grey'] : [
-    "linear-gradient(to right, #12c2e9, #c471ed, #f64f59)",
-  ];
-  static defaultColor: string[] = isNode ? [''] : ["#FFFFFF"];
+  static defaultBg: string[] = isNode
+    ? ["grey"]
+    : ["linear-gradient(to right, #12c2e9, #c471ed, #f64f59)"];
+  static defaultColor: string[] = isNode ? [""] : ["#FFFFFF"];
   static defaultTitle: string[] = ["STYLE-CONSOLE-LOG"];
   static defaultStyle: string[] = [""];
   static isDebug: boolean = true;
@@ -67,20 +67,28 @@ export class Log implements ILog {
   }
 
   #mergeParams(): string[] {
-    let styles: string[] = []
+    let styles: string[] = [];
     if (isNode) {
       // \x1B[42;31m%s\x1B[49;39m
-      let loca: string = ""
+      let loca: string = "";
       if (Log.isDebug) {
-        let b = Log.debugBg ? colorToAnsi(Log.debugBg, true) + ';' : ""
-        let c = Log.debugColor ? colorToAnsi(Log.debugColor) + '' : ''
-        loca = `\x1B[${b}${c}m${logLocation()}\x1B[49;39m`
+        const b = Log.debugBg ? colorToAnsi(Log.debugBg, true) + ";" : "";
+        const c = Log.debugColor ? colorToAnsi(Log.debugColor) + "" : "";
+        loca = `\x1B[${b}${c}m${logLocation()}\x1B[49;39m`;
       }
       styles[0] = this.#title.reduce((pre, item, i): string => {
-        let b = this.#bg[i] ? colorToAnsi(this.#bg[i], true) + ';' : this.#bg[0] ? colorToAnsi(this.#bg[0], true) + ';' : ""
-        let c = this.#color[i] ? colorToAnsi(this.#color[i]) : this.#color[0] ? colorToAnsi(this.#color[0]) : ""
-        return pre + `\x1B[${b}${c}m${item}\x1B[49;39m`
-      }, loca)
+        const b = this.#bg[i]
+          ? colorToAnsi(this.#bg[i], true) + ";"
+          : this.#bg[0]
+          ? colorToAnsi(this.#bg[0], true) + ";"
+          : "";
+        const c = this.#color[i]
+          ? colorToAnsi(this.#color[i])
+          : this.#color[0]
+          ? colorToAnsi(this.#color[0])
+          : "";
+        return pre + `\x1B[${b}${c}m${item}\x1B[49;39m`;
+      }, loca);
     } else {
       let title: string = "";
       styles = this.#title.map((item, index) => {
@@ -93,17 +101,17 @@ export class Log implements ILog {
           style
         );
       });
-      styles.unshift(title)
+      styles.unshift(title);
     }
     this.#init();
-    return styles
+    return styles;
   }
 
   exe = (...data: unknown[]) => {
-    const styles = this.#mergeParams()
+    const styles = this.#mergeParams();
     if (Log.isDebug && !isNode) {
-      return console.trace(...styles, ...data)
+      return console.trace(...styles, ...data);
     }
-    return console.log(...styles, ...data)
+    return console.log(...styles, ...data);
   };
 }
