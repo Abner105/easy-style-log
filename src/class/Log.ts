@@ -60,7 +60,7 @@ export class Log implements ILog {
     this.#init();
   }
 
-  exe(...data: unknown[]) {
+  #logTemplate = () => {
     let title: string = "";
     const styles: string[] = this.#title.map((item, index) => {
       title += `%c ${item} `;
@@ -73,6 +73,7 @@ export class Log implements ILog {
       );
     });
     this.#init();
-    return console.log(title, ...styles, ...data);
-  }
+    return [title, ...styles];
+  };
+  exe = (...data: unknown[]) => console.log(...this.#logTemplate(), ...data);
 }
