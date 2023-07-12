@@ -17,9 +17,9 @@ export class Log implements ILog {
   static defaultColor: string[] = isNode ? [""] : ["#FFFFFF"];
   static defaultTitle: string[] = ["EASY-STYLE-LOG"];
   static defaultStyle: string[] = [""];
-  static isDebug: boolean = true;
-  static debugBg: string = "";
-  static debugColor: string = "blue";
+  static isDebug: boolean = false;
+  static nodeDebugBg: string = "";
+  static nodeDebugColor: string = "blue";
   static instance: Log;
 
   constructor() {
@@ -63,17 +63,24 @@ export class Log implements ILog {
     Log.defaultColor = options.defaultColor || ["#05690D"];
     Log.defaultTitle = options.defaultTitle || ["easy-style-log"];
     Log.defaultStyle = options.defaultStyle || [""];
+    Log.isDebug = options.isDebug || false;
+    Log.nodeDebugBg = options.nodeDebugBg || "";
+    Log.nodeDebugColor = options.nodeDebugColor || "blue";
     this.#init();
   }
 
-  #mergeParams(): string[] {
+  #logTemplate(debug: boolean = false): string[] {
     let styles: string[] = [];
     if (isNode) {
       // \x1B[42;31m%s\x1B[49;39m
       let loca: string = "";
-      if (Log.isDebug) {
-        const b = Log.debugBg ? colorToAnsi(Log.debugBg, true) + ";" : "";
-        const c = Log.debugColor ? colorToAnsi(Log.debugColor) + "" : "";
+      if (Log.isDebug || debug) {
+        const b = Log.nodeDebugBg
+          ? colorToAnsi(Log.nodeDebugBg, true) + ";"
+          : "";
+        const c = Log.nodeDebugColor
+          ? colorToAnsi(Log.nodeDebugColor) + ""
+          : "";
         loca = `\x1B[${b}${c}m${logLocation()}\x1B[49;39m`;
       }
       styles[0] = this.#title.reduce((pre, item, i): string => {
@@ -97,7 +104,7 @@ export class Log implements ILog {
         const color = this.#color[index] || this.#color[0];
         const style = this.#style[index] || this.#style[0];
         return (
-          `background: ${bg};color: ${color}; padding: 3px 6px;margin:4px 0; border-radius: 2px; font-size: 14px;  font-weight: 600;` +
+          `background: ${bg};color: ${color}; padding: 3px 6px;margin:2px 0; border-radius: 2px; font-size: 14px;  font-weight: 600;` +
           style
         );
       });
@@ -107,9 +114,17 @@ export class Log implements ILog {
     return styles;
   }
 
-  exe = (...data: unknown[]) => {
-    const styles = this.#mergeParams();
+  log = (...data: unknown[]) => {
+    const styles = this.#logTemplate();
     if (Log.isDebug && !isNode) {
+      return console.trace(...styles, ...data);
+    }
+    return console.log(...styles, ...data);
+  };
+
+  debug = (...data: unknown[]) => {
+    const styles = this.#logTemplate(true);
+    if (!isNode) {
       return console.trace(...styles, ...data);
     }
     return console.log(...styles, ...data);
