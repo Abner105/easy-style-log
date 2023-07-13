@@ -23,6 +23,9 @@ npm i easy-style-log
 import logger from "easy-style-log"
 // CommonJs
 const logger = require("easy-style-log")
+
+logger.bg("#000000").debug('data')
+logger.bg("#000000").log('data')
 ```
 
 *   调试：logger.`<method>[.<method>...].debug(...data:unknown[])`
