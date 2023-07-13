@@ -1,5 +1,5 @@
 interface Icolors {
-  [key: string]: number
+  [key: string]: number;
 }
 
 // export default ansiStyles;
@@ -20,8 +20,7 @@ const colors: Icolors = {
   magentaBright: 95,
   cyanBright: 96,
   whiteBright: 97,
-}
-
+};
 
 const rgbToAnsi256 = (red: number, green: number, blue: number): number => {
   if (red === green && green === blue) {
@@ -36,11 +35,13 @@ const rgbToAnsi256 = (red: number, green: number, blue: number): number => {
     return Math.round(((red - 8) / 247) * 24) + 232;
   }
 
-  return 16
-    + (36 * Math.round(red / 255 * 5))
-    + (6 * Math.round(green / 255 * 5))
-    + Math.round(blue / 255 * 5);
-}
+  return (
+    16 +
+    36 * Math.round((red / 255) * 5) +
+    6 * Math.round((green / 255) * 5) +
+    Math.round((blue / 255) * 5)
+  );
+};
 
 const ansi256ToAnsi = (code: number): number => {
   if (code < 8) {
@@ -56,7 +57,7 @@ const ansi256ToAnsi = (code: number): number => {
   let blue;
 
   if (code >= 232) {
-    red = (((code - 232) * 10) + 8) / 255;
+    red = ((code - 232) * 10 + 8) / 255;
     green = red;
     blue = red;
   } else {
@@ -73,41 +74,44 @@ const ansi256ToAnsi = (code: number): number => {
     return 30;
   }
 
-  let result = 30 + ((Math.round(blue) << 2) | (Math.round(green) << 1) | Math.round(red));
+  let result =
+    30 + ((Math.round(blue) << 2) | (Math.round(green) << 1) | Math.round(red));
 
   if (value === 2) {
     result += 60;
   }
 
   return result;
-}
-
+};
 
 const hexToRgb = (hex: string): number[] => {
-  let rgb: number[] = []
+  const rgb: number[] = [];
   if (hex.length < 5) {
     for (let i = 1; i < hex.length; i++) {
-      rgb.push(parseInt('0x' + hex[i] + hex[i]))
+      rgb.push(parseInt("0x" + hex[i] + hex[i]));
     }
   } else {
     for (let i = 1; i < 7; i += 2) {
-      rgb.push(parseInt('0x' + hex[i] + hex[i + 1]))
+      rgb.push(parseInt("0x" + hex[i] + hex[i + 1]));
     }
   }
-  return rgb
-}
+  return rgb;
+};
 
 const colorToAnsi = (s: string, isBG: boolean = false): number => {
-  let code = isBG ? 10 : 0
-  if (colors[s]) return colors[s] + code
-  let r: number = 0, g: number = 0, b: number = 0
+  const code = isBG ? 10 : 0;
+  s = s.trim();
+  if (colors[s]) return colors[s] + code;
+  let r: number = 0,
+    g: number = 0,
+    b: number = 0;
   if (/^rgb.*\)$/.test(s)) {
-    const res: string[] = (<string[]>s.match(/\((.*?)\)/))[1].split(',');
-    [r, g, b] = res.map(item => parseInt(item))
+    const res: string[] = (<string[]>s.match(/\((.*?)\)/))[1].split(",");
+    [r, g, b] = res.map((item) => parseInt(item));
   } else if (/^#[0-9a-fA-F]{3}|^#[0-9a-fA-F]{6}|^#[0-9a-fA-F]{8}/.test(s)) {
-    [r, g, b] = hexToRgb(s)
+    [r, g, b] = hexToRgb(s);
   }
-  return ansi256ToAnsi(rgbToAnsi256(r, g, b)) + code
-}
+  return ansi256ToAnsi(rgbToAnsi256(r, g, b)) + code;
+};
 
-export default colorToAnsi
+export default colorToAnsi;

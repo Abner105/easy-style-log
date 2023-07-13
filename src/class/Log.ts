@@ -4,7 +4,7 @@ import logLocation from "../utils/logLocation";
 
 const isNode = typeof window !== "object";
 /**
- * Log 主类
+ * Log 
  */
 export class Log implements ILog {
   #bg: string[] = [""];
@@ -12,7 +12,7 @@ export class Log implements ILog {
   #title: string[] = [""];
   #style: string[] = [""];
   static defaultBg: string[] = isNode
-    ? ["grey"]
+    ? [""]
     : ["linear-gradient(to right, #12c2e9, #c471ed, #f64f59)"];
   static defaultColor: string[] = isNode ? [""] : ["#FFFFFF"];
   static defaultTitle: string[] = ["EASY-STYLE-LOG"];
@@ -75,26 +75,26 @@ export class Log implements ILog {
       // \x1B[42;31m%s\x1B[49;39m
       let loca: string = "";
       if (Log.isDebug || debug) {
-        const b = Log.nodeDebugBg
-          ? colorToAnsi(Log.nodeDebugBg, true) + ";"
-          : "";
+        const b = Log.nodeDebugBg ? colorToAnsi(Log.nodeDebugBg, true) : "";
         const c = Log.nodeDebugColor
           ? colorToAnsi(Log.nodeDebugColor) + ""
           : "";
-        loca = `\x1B[${b}${c}m${logLocation()}\x1B[49;39m`;
+        const semi = c && b ? ";" : "";
+        loca = `\x1B[${b}${semi}${c}m${logLocation()}\x1B[49;39m`;
       }
       styles[0] = this.#title.reduce((pre, item, i): string => {
         const b = this.#bg[i]
-          ? colorToAnsi(this.#bg[i], true) + ";"
+          ? colorToAnsi(this.#bg[i], true)
           : this.#bg[0]
-          ? colorToAnsi(this.#bg[0], true) + ";"
+          ? colorToAnsi(this.#bg[0], true)
           : "";
         const c = this.#color[i]
           ? colorToAnsi(this.#color[i])
           : this.#color[0]
           ? colorToAnsi(this.#color[0])
           : "";
-        return pre + `\x1B[${b}${c}m${item}\x1B[49;39m`;
+        const semi = c && b ? ";" : "";
+        return pre + `\x1B[${b}${semi}${c}m${item}\x1B[49;39m`;
       }, loca);
     } else {
       let title: string = "";
