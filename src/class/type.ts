@@ -1,10 +1,10 @@
 export interface ILog {
   log: (...data: unknown[]) => void;
   debug: (...data: unknown[]) => void;
-  bg(bgColor: string): ILog;
-  color(textColor: string): ILog;
-  title(content: string): ILog;
-  style(style: string): ILog;
+  bg(...bgs: string[]): ILog;
+  color(...colors: string[]): ILog;
+  title(...titles: string[]): ILog;
+  style(...styles: string[]): ILog;
   setDefaultStyle(options: IDefault): void;
 }
 
